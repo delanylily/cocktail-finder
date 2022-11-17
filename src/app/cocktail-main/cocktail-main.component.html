@@ -1,3 +1,14 @@
-<p>
-  cocktail-main works!
-</p>
+<div class="main">
+  <div class="heading">
+    <h1>Find your cocktail!</h1>
+    <input (keyup)="findCocktail($event)" placeholder="Find cocktail by ingredient" type="text">
+  </div>
+  <div class="images">
+    <img *ngIf="imageUrl" src="{{ imageUrl }}" alt="">
+  </div>
+  <div class="list">
+    <ul *ngFor="let ingredient of ingredientsList">
+      <!-- <li (click)="findIncredients()">{{ingredient.strIngredient1}}</li> -->
+    </ul>
+  </div>
+</div>
