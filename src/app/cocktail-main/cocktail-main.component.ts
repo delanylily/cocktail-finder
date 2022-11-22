@@ -15,13 +15,16 @@ export class CocktailMainComponent implements OnInit, OnDestroy {
   drinksArray: Array<any> = [];
   cocktailList: any;
   imageUrl: any;
+  images: string[] = [];
+  popularSpirits: Array<any> = ['gin', 'vodka', 'rum', 'whisky'];
   constructor(private readonly cocktailService: CocktailService) { }
 
   ngOnInit() {
-    this.cocktailService.getImages('gin').subscribe(result => {
-      this.createImageFromBlob(result);
-      this.imageUrl = result;
-    })
+    this.getImages();
+    // this.cocktailService.getImages('gin').subscribe(result => {
+    //   this.createImageFromBlob(result);
+    //   this.imageUrl = result;
+    // })
     this.findIngredients();
     this.searchValueSubscription = this.searchValue.pipe(
       map((value: string) => {
@@ -35,18 +38,26 @@ export class CocktailMainComponent implements OnInit, OnDestroy {
     ).subscribe()
   }
 
+  getImages(): void {
+    for (let index = 0; index < this.popularSpirits.length; index++) {
+      const element = this.popularSpirits[index];
+      this.cocktailService.getImages(element).subscribe(result => {
+        this.createImageFromBlob(result);
+      })
+    }
+  }
+
   createImageFromBlob(image: Blob) {
     let reader = new FileReader();
     reader.addEventListener("load", () => {
       this.imageUrl = reader.result;
+      this.images.push(this.imageUrl);
     }, false);
 
     if (image) {
       reader.readAsDataURL(image);
     }
   }
-
-
 
   getCocktails(value: any) {
     return this.cocktailService.getCocktails(value).subscribe((data: any) => {
