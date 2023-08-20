@@ -5,13 +5,11 @@
   </div>
   <div class="images">
     <div class="image-card">
-      <img *ngFor="let image of images; index as i"  src="{{image}}" alt="">
-      <!-- <h6>name: {{ i}} </h6> -->
+      <img *ngFor="let image of images; index as i" src="{{image}}" alt="">
     </div>
   </div>
   <div class="list">
     <ul *ngFor="let ingredient of ingredientsList">
-      <!-- <li (click)="findIncredients()">{{ingredient.strIngredient1}}</li> -->
     </ul>
   </div>
 </div>

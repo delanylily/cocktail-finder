@@ -17,25 +17,17 @@ export class CocktailMainComponent implements OnInit, OnDestroy {
   imageUrl: any;
   images: string[] = [];
   popularSpirits: Array<any> = ['gin', 'vodka', 'rum', 'whisky'];
+
   constructor(private readonly cocktailService: CocktailService) { }
 
   ngOnInit() {
     this.getImages();
-    // this.cocktailService.getImages('gin').subscribe(result => {
-    //   this.createImageFromBlob(result);
-    //   this.imageUrl = result;
-    // })
     this.findIngredients();
     this.searchValueSubscription = this.searchValue.pipe(
       map((value: string) => {
         this.ingredient = value;
       }),
-      //   switchMap(() => this.getCocktails(this.ingredient));
-      //   this.cocktailService.getCocktails(this.ingredient))
-      // ).subscribe((data: any) => {
-      //   console.log(data, 'data')
-      // });
-    ).subscribe()
+    ).subscribe();
   }
 
   getImages(): void {
@@ -43,7 +35,7 @@ export class CocktailMainComponent implements OnInit, OnDestroy {
       const element = this.popularSpirits[index];
       this.cocktailService.getImages(element).subscribe(result => {
         this.createImageFromBlob(result);
-      })
+      });
     }
   }
 
@@ -53,7 +45,6 @@ export class CocktailMainComponent implements OnInit, OnDestroy {
       this.imageUrl = reader.result;
       this.images.push(this.imageUrl);
     }, false);
-
     if (image) {
       reader.readAsDataURL(image);
     }
@@ -62,7 +53,7 @@ export class CocktailMainComponent implements OnInit, OnDestroy {
   getCocktails(value: any) {
     return this.cocktailService.getCocktails(value).subscribe((data: any) => {
       this.cocktailList = data;
-    })
+    });
   }
 
   findCocktail(search: any): void {
@@ -71,16 +62,11 @@ export class CocktailMainComponent implements OnInit, OnDestroy {
 
   findIngredients(): void {
     this.cocktailService.getIngredients().subscribe(ingredients => {
-      // this.ingredientsList.push(ingredients.drinks);
-      // console.log(this.ingredientsList)
       this.ingredientsList = ingredients.drinks;
-      console.log(this.ingredientsList, 'list')
-
-    })
+    });
   }
 
   ngOnDestroy(): void {
     this.searchValueSubscription.unsubscribe();
   }
-
 }
